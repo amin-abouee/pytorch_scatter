@@ -1,10 +1,12 @@
-cmake_minimum_required(VERSION 3.0)
-project(torchscatter)
-set(CMAKE_CXX_STANDARD 14)
+cmake_minimum_required(VERSION 3.18)
+project(torchscatter CXX CUDA)
+set(CMAKE_CXX_STANDARD 17)
 set(TORCHSCATTER_VERSION 2.1.2)
 
 option(WITH_CUDA "Enable CUDA support" OFF)
 option(WITH_PYTHON "Link to Python when building" ON)
+
+find_package(Torch REQUIRED)
 
 if(WITH_CUDA)
   enable_language(CUDA)
@@ -17,7 +19,6 @@ if (WITH_PYTHON)
   add_definitions(-DWITH_PYTHON)
   find_package(Python3 COMPONENTS Development)
 endif()
-find_package(Torch REQUIRED)
 
 file(GLOB HEADERS csrc/*.h)
 file(GLOB OPERATOR_SOURCES csrc/cpu/*.h csrc/cpu/*.cpp csrc/*.cpp)
